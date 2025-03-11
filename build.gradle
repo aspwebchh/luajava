@@ -23,7 +23,7 @@ subprojects { it ->
 
         java {
             toolchain {
-                languageVersion = JavaLanguageVersion.of(8)
+                languageVersion = JavaLanguageVersion.of(21)
             }
 
             withSourcesJar()

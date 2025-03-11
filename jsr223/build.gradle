@@ -57,9 +57,9 @@ jacocoTestReport {
     executionData.setFrom(fileTree(buildDir.absolutePath).include('jacoco/*.exec'))
 
     reports {
-        xml.enabled true
-        html.enabled true
-        csv.enabled false
+//        xml.enabled true
+//        html.enabled true
+//        csv.enabled false
         xml.destination file("${buildDir}/reports/jacoco/report.xml")
     }
 

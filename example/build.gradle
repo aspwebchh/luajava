@@ -20,7 +20,7 @@ ext {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(8)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -70,7 +70,7 @@ test {
     useJUnitPlatform()
 
     javaLauncher.set(javaToolchains.launcherFor {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(21))
     })
 
     jvmArgs ["--illegal-access=debug"]

@@ -178,7 +178,8 @@ try (Lua L = new Lua54()) {
     public void getTableTest() {
 // #region getTableTest
 try (Lua L = new Lua54()) {
-    L.run("return { a = 1 }"); // Pushes a table on stack
+    L.openLibraries();
+    L.run("return { a = math.max(1,1) }"); // Pushes a table on stack
     L.push("a");               // Pushes the key to look up
     L.getTable(-2);            // Retrieves the value
     assertEquals(1, L.toInteger(-1));

@@ -3,6 +3,9 @@
 
 #include "jua.h"
 #include "juaapi.h"
+#include "jualib.h"
+#include "luacomp.h"
+#include "string.h"
 
 #include <stdlib.h>
 
@@ -130,6 +133,8 @@ int initBindings(JNIEnv * env) {
     return -1;
   }
 
+  printf("\n======== initBindings start ========\n");
+
   java_lang_class_class = bindJavaClass(env, "java/lang/Class");
   java_lang_class_forname = bindJavaStaticMethod(env, java_lang_class_class,
           "forName", "(Ljava/lang/String;)Ljava/lang/Class;");
@@ -215,8 +220,10 @@ int initBindings(JNIEnv * env) {
       || juaapi_loadmodule == NULL
       || juaapi_loadlib == NULL
       || juaapi_allocatedirect == NULL) {
-    return -1;
+      printf("\n======== initBindings fail ========\n");
+    return -1;;
   } else {
+      printf("\n======== initBindings ok ========\n");
     return 0;
   }
 }
