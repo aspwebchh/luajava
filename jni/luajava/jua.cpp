@@ -145,7 +145,8 @@ int initBindings(JNIEnv * env) {
   throwable_tostring = bindJavaMethod(env, java_lang_throwable_class,
           "toString", "()Ljava/lang/String;");
 
-  juaapi_class = bindJavaClass(env, "party/iroiro/luajava/JuaAPI");
+ //com.sh.game.lua.lua712
+  juaapi_class = bindJavaClass(env, "com/sh/game/lua/lua712/JuaAPI");
   juaapi_classnew = bindJavaStaticMethod(env, juaapi_class,
           "classNew", "(ILjava/lang/Object;I)I");
   juaapi_classindex = bindJavaStaticMethod(env, juaapi_class,
@@ -430,6 +431,7 @@ int luaJ_isobject(lua_State * L, int index) {
 }
 
 void luaJ_pushfunction(JNIEnv * env, lua_State * L, jobject func) {
+  //printf("luaJ_pushfunction()\n");
   luaJ_pushobject(env, L, func);
   lua_pushcclosure(L, &jfunctionWrapper, 1);
 }
