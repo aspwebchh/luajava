@@ -3,6 +3,10 @@
 
 #include "lua.hpp"
 #include "jni.h"
+extern "C"
+{
+#include "luasocket.h"
+}
 
 #define JAVA_STATE_INDEX "__jmainstate__"
 #define GLOBAL_THROWABLE "__jthrowable__"

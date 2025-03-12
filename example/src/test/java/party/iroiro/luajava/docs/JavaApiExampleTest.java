@@ -1,13 +1,23 @@
 package party.iroiro.luajava.docs;
 
 import org.junit.jupiter.api.Test;
+import party.iroiro.luajava.Consts;
+import party.iroiro.luajava.JuaAPI;
 import party.iroiro.luajava.Lua;
 import party.iroiro.luajava.lua51.Lua51;
 import party.iroiro.luajava.lua54.Lua54;
 import party.iroiro.luajava.value.LuaValue;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.math.BigDecimal;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -50,15 +60,47 @@ try (Lua L = new Lua54()) {
 // #endregion setGlobalTest
     }
 
+    private void pcall0(Lua54 L, LuaValue luaValue, Object... args) {
+        int oldTop = L.getTop();
+        luaValue.push(L);
+        try {
+            L.pCall(args.length, Consts.LUA_MULTRET);
+            int returnCount = L.getTop() - oldTop;
+            if (returnCount == 0) {
+                return;
+            }
+            LuaValue[] call = new LuaValue[returnCount];
+            for (int i = 0; i < returnCount; i++) {
+                call[returnCount - i - 1] = L.get();
+            }
+            LuaValue returnValue = call[0];
+        } catch (Throwable e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            L.setTop(oldTop);
+        }
+    }
     @Test
     public void luaValueEvalTest() {
 // #region luaValueEvalTest
-try (Lua L = new Lua54()) {
+try (Lua54 L = new Lua54()) {
     L.openLibraries();
-    LuaValue[] values1 = L.eval("string.sub('abcdefg', 0, 3)");
-    assertEquals(0, values1.length);
-    LuaValue[] values2 = L.eval("return string.sub('abcdefg', 0, 3)");
-    assertEquals("abc", values2[0].toString());
+    try{
+        String path = "C:\\work\\luajava_c\\test_lua_debug\\test_lua_socket.lua";
+        byte[] bytes = Files.readAllBytes(Paths.get(path));
+        Buffer flip = JuaAPI.allocateDirect(bytes.length).put(bytes).flip();
+        L.run(flip,"test_lua_socket.lua");
+        LuaValue func = L.get("test1223");
+        pcall0(L, func);
+    }catch (Exception e) {
+        e.printStackTrace();
+
+    }
+
+//    LuaValue[] values1 = L.eval("string.sub('abcdefg', 0, 3)");
+//    assertEquals(0, values1.length);
+//    LuaValue[] values2 = L.eval("return string.sub('abcdefg', 0, 3)");
+//    assertEquals("abc", values2[0].toString());
 }
 // #endregion luaValueEvalTest
     }

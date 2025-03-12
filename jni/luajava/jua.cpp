@@ -6,8 +6,8 @@
 #include "jualib.h"
 #include "luacomp.h"
 #include "string.h"
-
 #include <stdlib.h>
+
 
 #include "mobile-nosys.h"
 #if LJ_TARGET_DLOPEN
